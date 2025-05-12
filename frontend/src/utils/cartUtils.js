@@ -5,13 +5,16 @@ export const addDecimals = (num) => {
 export const updateCart = (state) => {
   // cal items price
   state.itemsPrice = addDecimals(
-    state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    state.cartItems.reduce((acc, item) => {
+      console.log(item.price, item.qty);
+      return acc + item.price * item.qty;
+    }, 0)
   );
 
   // cal shipping price :- if items price is greater than 100 then shipping is free else 10
   state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
 
-  // cal tax price
+  // cal tax price 15%
   state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
 
   // cal total price
@@ -22,6 +25,7 @@ export const updateCart = (state) => {
   ).toFixed(2);
 
   localStorage.setItem("cart", JSON.stringify(state));
+  console.log(state);
 
   return state;
 };

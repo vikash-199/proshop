@@ -1,12 +1,11 @@
 import React from "react";
 import { Badge, Navbar, Nav, Container } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"; // use to select anythings from globle state
 import logo from "../assets/logo.png";
 
 const Header = () => {
-  const { cartItems } = useSelector((state) => state.cart);
-  console.log(cartItems);
+  const { cartItems } = useSelector((state) => state.cart); // cart state coming from globle state
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
