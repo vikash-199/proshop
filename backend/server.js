@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 dotenv.config();
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
@@ -23,6 +24,17 @@ You accept both JSON requests (from frontend or API clients)
 And form submissions (from classic HTML forms)
 */
 
+// Cookie-parser Middleware
+
+app.use(cookieParser());
+/*
+Cookie-parser
+ - app.use(...): This is how you add middleware in an Express app. Middleware functions have access to the req, res, and next objects and are used to process requests.
+
+ - cookieParser(): This is a middleware function provided by the cookie-parser package. It parses the Cookie header from incoming HTTP requests and populates req.cookies with an object containing all cookie key-value pairs.
+
+
+*/
 app.get("/", (req, res) => {
   res.send("API is running...");
 });

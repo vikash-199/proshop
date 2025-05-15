@@ -12,7 +12,9 @@ const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
+    //
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      // matchPassword() method is define in userSchema as a middleware
       expiresIn: "30d",
     });
 
