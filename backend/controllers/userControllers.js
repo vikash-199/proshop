@@ -1,6 +1,5 @@
 import asyncHandler from "../middleware/asyncHandler.js";
-import jwt from "jsonwebtoken";
-
+import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 
 // @desc    Auth user & get token
@@ -12,7 +11,8 @@ const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
-    //
+    generateToken(res, user._id);
+    /*
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       // matchPassword() method is define in userSchema as a middleware
       expiresIn: "30d",
@@ -25,6 +25,7 @@ const authUser = asyncHandler(async (req, res) => {
       sameSite: "strict",
       maxAge: 60 * 24 * 60 * 60 * 1000, // 60 days
     });
+     */
     res.json({
       _id: user._id,
       name: user.name,
@@ -41,14 +42,42 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  res.send("register User");
+  const { name, email, password } = req.body;
+
+  const userExist = await User.findOne({ email });
+
+  if (userExist) {
+    res.status(400);
+    throw new Error("User already Exists");
+  }
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
+  if (user) {
+    generateToken(res, user_id);
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
 });
 
 // @desc    Logout user / clear cookie
 // @route   POST /api/users/login
 // @access  Private
 const logoutUser = asyncHandler(async (req, res) => {
-  res.send("logout User");
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 // @desc    Get user profile
