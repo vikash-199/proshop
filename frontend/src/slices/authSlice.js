@@ -24,9 +24,14 @@ const authSlice = createSlice({
       state.userInfo = action.payload; // update the redux state state.userInfo with the data fron action.payload
       localStorage.setItem("userInfo", JSON.stringify(action.payload)); // Also stores the same info in localStorage, ensuring persistence even if the page reloads.
     },
+    // This is for the local stuff
+    logout: (state, action) => {
+      state.userInfo = null;
+      localStorage.removeItem("userInfo");
+    },
   },
 });
 
-export const { setCredentials } = authSlice.actions; //Exports the setCredentials action so it can be dispatched from components (e.g., after login).
+export const { setCredentials, logout } = authSlice.actions; //Exports the setCredentials action so it can be dispatched from components (e.g., after login).
 
 export default authSlice.reducer;
