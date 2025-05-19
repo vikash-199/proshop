@@ -6,7 +6,6 @@ export const updateCart = (state) => {
   // cal items price
   state.itemsPrice = addDecimals(
     state.cartItems.reduce((acc, item) => {
-      console.log(item.price, item.qty);
       return acc + item.price * item.qty;
     }, 0)
   );
@@ -25,7 +24,6 @@ export const updateCart = (state) => {
   ).toFixed(2);
 
   localStorage.setItem("cart", JSON.stringify(state));
-  console.log(state);
 
   return state;
 };
