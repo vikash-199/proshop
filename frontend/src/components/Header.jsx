@@ -1,5 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Badge, Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import {
+  Badge,
+  Navbar,
+  Nav,
+  Container,
+  NavDropdown,
+  LinkContainer,
+} from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux"; // use to select anythings from globle state
 import { useLogoutMutation } from "../slices/usersApiSlice";
@@ -60,6 +67,19 @@ const Header = () => {
                   <FaUser />
                   Singn In
                 </Nav.Link>
+              )}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title="Admin" id="adminmenu">
+                  <Nav.Link to="/admin/productlist">
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </Nav.Link>
+                  <Nav.Link to="/admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </Nav.Link>
+                  <Nav.Link to="/admin/orderlist">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </Nav.Link>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
