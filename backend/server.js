@@ -35,8 +35,6 @@ Cookie-parser
  - app.use(...): This is how you add middleware in an Express app. Middleware functions have access to the req, res, and next objects and are used to process requests.
 
  - cookieParser(): This is a middleware function provided by the cookie-parser package. It parses the Cookie header from incoming HTTP requests and populates req.cookies with an object containing all cookie key-value pairs.
-
-
 */
 
 app.use("/api/products", productRoutes);
@@ -53,7 +51,7 @@ app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 if (process.env.NODE_ENV === "production") {
   // Set static folder
-  app.use(app.static(path.join(__dirname, "/frontend/build")));
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
   app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
   );
